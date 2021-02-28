@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <ul><li><a th:href="@{/}">Main Page</a></li></ul>
+</div>
+
+<div>
+    <span th:if="${errors}">
+    <ul><li style="color:red;" th:each="error: ${errors}" th:text="${error}"></li></ul>
+</span>
+</div>
+
+<div>
+    <form th:action="@{'/add'}" th:object="${pupil}" th:method="POST">
+<!--        <input type="hidden" name="id" th:value="${id}">-->
+        <table>
+            <tr>
+                <td><label for="FirstName">FirstName</label></td>
+                <td><input type="text" th:field="*{firstName}" id="FirstName"/></td>
+            </tr>
+            <tr>
+                <td><label for="LastName">LastName</label></td>
+                <td><input type="text" th:field="*{lastName}" id="LastName"/></td>
+            </tr>
+            <tr>
+                <td><label for="personalNumber">Personal Number</label></td>
+                <td><input type="text" th:field="*{personalNumber}" id="personalNumber"/></td>
+            </tr>
+            <tr>
+                <td><label for="birthDate">Birth Date</label></td>
+                <td><input type="date" th:field="*{birthDate}" id="birthDate"/></td>
+            </tr>
+            <tr>
+                <td><label for="email">email</label></td>
+                <td><input type="email" th:field="*{email}" id="email"/></td>
+            </tr>
+            <tr>
+                <td><label for="email">gender</label></td>
+                <td>
+                    <select th:field="*{gender}">
+                        <option th:each="di : ${genders}"
+                                th:value="${di.id}"
+                                th:text="${di.dictionaryName}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">Class</label></td>
+                <td>
+                    <select th:field="*{classRoom}" id="pupil-class-selection">
+                        <option th:each="cls : ${classes}"
+                                th:value="${cls.id}"
+                                th:text="${cls.classNumber} + ' ' +${cls.classIndex}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">School</label></td>
+                <td>
+                    <select th:field="${pupil.classRoom.school}" id="pupil-school-selection">
+                        <option th:each="sch : ${schools}"
+                                th:value="${sch.id}"
+                                th:text="${sch.schoolName} + ' ' +${sch.schoolCode}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<hr>
+
+</body>
+</html>

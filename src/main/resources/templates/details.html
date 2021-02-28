@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <ul>
+        <li><a th:href="@{/}">Main Page</a></li>
+    </ul>
+</div>
+<div>
+    <table>
+        <tr>
+            <td><span>FirstName</span></td>
+            <td><strong th:text="${pupil.firstName}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>LastName</span></td>
+            <td><strong th:text="${pupil.lastName}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>Personal Number</span></td>
+            <td><strong th:text="${pupil.personalNumber}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>Birth Date</span></td>
+            <td><strong th:text="${pupil.birthDate}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>email</span></td>
+            <td><strong th:text="${pupil.email}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>gender</span></td>
+            <td><strong th:text="${pupil.gender.dictionaryName}"></strong></td>
+        </tr>
+        <tr>
+            <td><span>class</span></td>
+            <td th:if="${pupil.classRoom}">
+                <strong th:text="${pupil.classRoom.classNumber}"></strong>
+                <strong th:text="${pupil.classRoom.classIndex}"></strong>
+            </td>
+        </tr>
+        <tr>
+            <td><span>school</span></td>
+            <td th:if="${pupil.classRoom}">
+                <strong th:text="${pupil.classRoom.school.schoolName}"></strong>
+                N<strong th:text="${pupil.classRoom.school.schoolCode}"></strong>
+            </td>
+        </tr>
+    </table>
+</div>
+<hr>
+<p>Write a mark for <span th:if="${pupil.gender.dictionaryKey == 'key.gender.male'}">him</span>
+    <span th:unless="${pupil.gender.dictionaryKey == 'key.gender.male'}">her</span>
+</p>
+<div>
+    <span th:if="${errors}">
+    <ul><li style="color:red;" th:each="error: ${errors}" th:text="${error}"></li></ul>
+</span>
+</div>
+<div>
+    <form th:action="@{'/mark/'+${pupil.id}}" method="post">
+        <table>
+            <tr>
+                <td><span>Mark</span></td>
+                <td><input type="number" min="1" max="11" name="assignedMark"></td>
+            </tr>
+            <tr>
+                <td><span>Date</span></td>
+                <td><input type="date" name="assignDate" /></td>
+            </tr>
+            <tr>
+                <td><span>Subject</span></td>
+                <td>
+                    <select th:name="subject">
+                        <option th:each="dictionary : ${subjects}"
+                                th:value="${dictionary.id}"
+                                th:text="${dictionary.dictionaryName}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span></span></td>
+                <td><button type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<hr>
+<div>
+    <table>
+        <tr>
+            <th>Mark</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        <tr th:each="mark : ${pupil.marks}">
+            <td th:text="${mark.assignedMark}"></td>
+            <td th:text="${mark.subject.dictionaryName}"></td>
+            <td th:text="${#dates.format(mark.assignDate, 'yyyy-MM-dd')}"></td>
+            <td><a th:href="@{'/mark/edit/'+${mark.id}}">Edit</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

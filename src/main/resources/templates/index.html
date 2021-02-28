@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/logout}" th:method="post">
+    <button type="submit">Log out</button>
+</form>
+<a th:href="@{/add}">Add</a>
+<hr>
+<table style="width:100%">
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>BirthDate</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="pupil: ${pupils}">
+        <td th:text="${pupil.firstName}"></td>
+        <td th:text="${pupil.lastName}"></td>
+        <td th:text="${pupil.birthDate}"></td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${pupil.id})}">Edit</a>
+            <a th:href="@{/details/{id}(id=${pupil.id})}">Details</a>
+        </td>
+    </tr>
+</table>
+<hr>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <ul>
+        <li><a th:href="@{/}">Main Page</a></li>
+        <li><a th:href="@{'/details/'+${mark.pupil.id}}">Pupil's Page</a></li>
+    </ul>
+</div>
+<table>
+    <tr>
+        <td><span>FirstName</span></td>
+        <td><strong th:text="${mark.pupil.firstName}"></strong></td>
+    </tr>
+    <tr>
+        <td><span>LastName</span></td>
+        <td><strong th:text="${mark.pupil.lastName}"></strong></td>
+    </tr>
+</table>
+<hr>
+<div>
+    <span th:if="${errors}">
+    <ul><li style="color:red;" th:each="error: ${errors}" th:text="${error}"></li></ul>
+</span>
+</div>
+<div>
+    <form th:action="@{'/mark/edit/'+${mark.id}}" th:object="${mark}" method="post">
+        <input type="hidden" value="pupil" th:field="*{pupil}">
+        <table>
+            <tr>
+                <td><span>Mark</span></td>
+                <td><input type="number" min="1" max="11" th:field="*{assignedMark}"></td>
+            </tr>
+            <tr>
+                <td><span>Date</span></td>
+                <td><input type="date" th:field="*{assignDate}" /></td>
+            </tr>
+            <tr>
+                <td><span>Subject</span></td>
+                <td>
+                    <select th:field="*{subject}">
+                        <option th:each="dictionary : ${subjects}"
+                                th:value="${dictionary.id}"
+                                th:text="${dictionary.dictionaryName}"
+                                th:selected="${dictionary.id==subject}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span></span></td>
+                <td><button type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
